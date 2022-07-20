@@ -1,6 +1,6 @@
 import pygame
 from pygame import Color, Vector2, Rect
-
+from random import randint
 class Ring():
     def __init__(self):
         super(Ring,self).__init__()
@@ -27,13 +27,14 @@ class Ring():
 class Ball():
     def __init__(self,screen,mousepos,power, color):
         super(Ball,self).__init__()
+        self.radius = randint(1,20)
         self.isShooted = False
         self.color = color
         self.pos = Vector2(120, 530)
         self.speed = (mousepos-self.pos).normalize()*power
-        self.rect = Rect(self.pos.x,self.pos.y,40,40)
+        self.rect = Rect(self.pos.x,self.pos.y,self.radius*2,self.radius*2)
     
-        pygame.draw.circle(screen, self.color, (self.pos.x,self.pos.y), 20,10)
+        pygame.draw.circle(screen, self.color, (self.pos.x,self.pos.y), self.radius)
 
     def update(self, screen, width, height, ring):
         #limit horizontally
@@ -59,8 +60,8 @@ class Ball():
         self.pos.y += self.speed.y 
 
         #update rect and draw
-        self.rect = Rect(self.pos.x,self.pos.y,40,40)
-        pygame.draw.circle(screen, self.color, (self.pos.x,self.pos.y), 20,10)
+        self.rect = Rect(self.pos.x,self.pos.y,self.radius*2,self.radius*2)
+        pygame.draw.circle(screen, self.color, (self.pos.x,self.pos.y), self.radius)
 
         #shoots
         if (not self.isShooted) and self.rect.colliderect(ring.centerrect):

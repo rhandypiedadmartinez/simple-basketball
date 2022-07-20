@@ -46,7 +46,7 @@ class Canvas():
             Textbox(screen,Canvas.width//12.5,3*Canvas.height//15,'Power: '+str(int(power/30*10-1)),ring.color,Color('White'),40)
             
             ring.update(screen,Canvas.width, Canvas.height, Canvas.score)
-            origin = pygame.draw.circle(screen, randomColor,(120,530),20,10)
+            origin = pygame.draw.circle(screen, randomColor,(120,530),25,10)
             mousepos1 = pygame.mouse.get_pos()
             pygame.draw.line(screen, Color('Gray'),origin.center,mousepos1)
             
