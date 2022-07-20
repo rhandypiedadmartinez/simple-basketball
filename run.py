@@ -42,7 +42,8 @@ class Canvas():
             screen.fill(Color('White'))
             Textbox(screen,Canvas.width//2,Canvas.height//3,str(Canvas.score),ring.color,Color('White'),150)
             Textbox(screen,Canvas.width//5,Canvas.height//15,'Press (w) to adjust shooting power',ring.color,Color('White'),40)
-            Textbox(screen,Canvas.width//12.5,2*Canvas.height//15,'Power: '+str(int(power/30*10-1)),ring.color,Color('White'),40)
+            Textbox(screen,Canvas.width//6.3,2*Canvas.height//15,'Press (e) to splash attack',ring.color,Color('White'),40)
+            Textbox(screen,Canvas.width//12.5,3*Canvas.height//15,'Power: '+str(int(power/30*10-1)),ring.color,Color('White'),40)
             
             ring.update(screen,Canvas.width, Canvas.height, Canvas.score)
             origin = pygame.draw.circle(screen, randomColor,(120,530),20,10)
@@ -58,7 +59,7 @@ class Canvas():
                     if event.key == K_ESCAPE:
                         pygame.quit()
                         sys.exit()
-                        
+                    
                 elif event.type == MOUSEBUTTONDOWN:
                     pos[:] = pygame.mouse.get_pos()            
                     ball = Ball(screen, pos, power,randomColor)
@@ -67,8 +68,13 @@ class Canvas():
                     
             #add power
             key_pressed = pygame.key.get_pressed()
+
             if key_pressed[pygame.K_w] and power<35:
                 power += 1.25
+
+            if key_pressed[pygame.K_e]:
+                ball = Ball(screen, mousepos1, power,randomColor)
+                balls.append(ball)
 
             if power>5:
                 power -= 1

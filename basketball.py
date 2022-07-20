@@ -64,7 +64,7 @@ class Ball():
 
         #shoots
         if (not self.isShooted) and self.rect.colliderect(ring.centerrect):
-            ring.speed += ring.speed.normalize()
+            #ring.speed += ring.speed.normalize()
             self.isShooted = True
             ring.color = self.color
             return 1
