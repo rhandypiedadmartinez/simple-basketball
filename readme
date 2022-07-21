@@ -7,4 +7,4 @@ at tayoy magbasketball ball XD'
 
 Requires: mouse and key 'W'
 For Linux: open folder and type 'bash start.sh' on terminal
-For Windows: IDK
+For Windows: open folder and type '.\start' on command prompt (typing 'start' will create an another instance of command prompt)
