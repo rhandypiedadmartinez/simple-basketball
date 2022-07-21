@@ -19,7 +19,6 @@ class Canvas():
 
     def __init__(self):
         super(Canvas,self).__init__()
-        score = 0
 
         pygame.init()
         screen = pygame.display.set_mode((Canvas.width, Canvas.height))
@@ -29,15 +28,16 @@ class Canvas():
         clock = pygame.time.Clock()
         isRunning = True
         balls = []
-        pos = Vector2()
+        mousepos2 = Vector2()
         power = 30
+        colorReps=0
         ring = Ring()
         
         def randomizeColor():
             return pygame.Color(randint(0,254),randint(0,254),randint(0,254),randint(100,200))
         
         randomColor = randomizeColor()
-            
+
         while isRunning:
             screen.fill(Color('White'))
             Textbox(screen,Canvas.width//2,Canvas.height//3,str(Canvas.score),ring.color,Color('White'),150)
@@ -61,19 +61,23 @@ class Canvas():
                         sys.exit()
                     
                 elif event.type == MOUSEBUTTONDOWN:
-                    pos[:] = pygame.mouse.get_pos()            
-                    ball = Ball(screen, pos, power,randomColor)
+                    mousepos2[:] = pygame.mouse.get_pos()            
+                    ball = Ball(screen, mousepos2, power,randomColor)
                     balls.append(ball)
                     randomColor = randomizeColor()
                     
-            #add power
             key_pressed = pygame.key.get_pressed()
 
+            #add power
             if key_pressed[pygame.K_w] and power<35:
                 power += 1.25
-
+            
             if key_pressed[pygame.K_e]:
                 ball = Ball(screen, mousepos1, power,randomColor)
+                colorReps +=1
+                if colorReps>10:
+                    colorReps=0
+                    randomColor = randomizeColor()
                 balls.append(ball)
 
             if power>5:

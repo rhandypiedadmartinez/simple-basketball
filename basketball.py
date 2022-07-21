@@ -39,7 +39,7 @@ class Ball():
     def update(self, screen, width, height, ring):
         #limit horizontally
         if self.pos.x < 0 or self.pos.x > width:
-            self.speed.x = -self.speed.x
+            self.speed.x = -self.speed.x * 0.70
         
         #limit vertically
         if self.pos.y < 0:
@@ -55,7 +55,7 @@ class Ball():
             self.speed.y += 1
         else:
         #bounce
-            self.speed.y = -self.speed.y * 0.75
+            self.speed.y = -self.speed.y * 0.60
             
         self.pos.y += self.speed.y 
 
