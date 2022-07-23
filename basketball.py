@@ -27,7 +27,7 @@ class Ring():
 class Ball():
     def __init__(self,screen,mousepos,power, color):
         super(Ball,self).__init__()
-        self.radius = randint(5,20)
+        self.radius = randint(14,20)
         self.isShooted = False
         self.color = color
         self.pos = Vector2(120, 530)

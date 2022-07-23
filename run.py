@@ -73,17 +73,49 @@ class Canvas():
                 power += 1.25
             
             if key_pressed[pygame.K_e]:
-                ball = Ball(screen, mousepos1, power,randomColor)
                 colorReps +=1
+
+                if colorReps%5 == 0:
+                    ball = Ball(screen, mousepos1, power,randomColor)
+                    balls.append(ball)
+
                 if colorReps>10:
                     colorReps=0
                     randomColor = randomizeColor()
-                balls.append(ball)
-
+                    
             if power>5:
                 power -= 1
 
+            if len(balls) > 150:
+                balls.pop(0)
+
             for i in balls:
+                for e in balls:
+                    if i.rect.colliderect(e.rect):
+                        # For computation of final velocities after collision:
+                        # m1v1i + m2v2i = m1v1f + m2v2f
+                        # m is same for both, let m=1
+                        # so v1i + v2i = v1f + v2f (1st equation)
+
+                        # 2nd equation needed is. v1i + v1f = v2i + v2f
+
+                        # Let initial speed ball1 = 2m/s,  ball2 = -1m/s
+                        # eq3 -->  2 - 1 = v1f + v2f   <--- (using eq1)
+                        
+                        # 2 + v1f = -1 + v2f (using eq2) --> eq4
+                        
+                        # eq4 -->  v2f = 3 + v1f
+
+                        # 1 = v1f + (3+v1f)        <-- use eq4 to eq3
+
+                        # v1f = -2/2
+                        # v1f = -1
+                        # v2f = 2 ---> so nagpalitan lang pala sila ng speed pag elastic collsion
+                        
+                        temp = e.speed
+                        e.speed = i.speed
+                        i.speed = temp
+
                 Canvas.score += i.update(screen, Canvas.width, Canvas.height-10, ring)
 
             pygame.display.flip()
