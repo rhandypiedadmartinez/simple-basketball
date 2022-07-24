@@ -6,7 +6,7 @@ class Ring():
         super(Ring,self).__init__()
         self.speed = Vector2(1,0)
         self.size = Vector2(100,40)
-        self.pos = Vector2(850, 330)
+        self.pos = Vector2(710, 330)
         self.color = Color('Black')
         nullRect = Rect(0,0,0,0)
         self.ellipserect, self.leftrect, self.rightrect, self.centerrect = nullRect,nullRect,nullRect,nullRect

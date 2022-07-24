@@ -9,16 +9,24 @@ from pygame.locals import (
     K_ESCAPE,
     KEYDOWN,
     QUIT,
-    MOUSEBUTTONDOWN
+    MOUSEBUTTONDOWN,
+    K_w
 )
-
 class Canvas():
     width = 1050
     height = 650
     score = 0
-
+    automatedThrowerSwitch = False
     def __init__(self):
+        frames = 0
+
         super(Canvas,self).__init__()
+
+        ballCounter = 0
+        ball1 = [127,167]
+        ball2 = [165,145]
+        ball3 = [234,163]
+        framesElapse = 15
 
         pygame.init()
         screen = pygame.display.set_mode((Canvas.width, Canvas.height))
@@ -39,12 +47,12 @@ class Canvas():
         randomColor = randomizeColor()
 
         while isRunning:
+            frames += 1
             screen.fill(Color('White'))
             Textbox(screen,Canvas.width//2,Canvas.height//3,str(Canvas.score),ring.color,Color('White'),150)
-            Textbox(screen,Canvas.width//5,Canvas.height//15,'Press (w) to adjust shooting power',ring.color,Color('White'),40)
+            Textbox(screen,Canvas.width//5,Canvas.height//15,'Press (w) to ON/OFF auto thrower',ring.color,Color('White'),40)
             Textbox(screen,Canvas.width//3.25,2*Canvas.height//15,'Mouse click to single attack OR Press (e) to splash attack',ring.color,Color('White'),40)
-            Textbox(screen,Canvas.width//12.5,3*Canvas.height//15,'Power: '+str(int(power/30*10-1)),ring.color,Color('White'),40)
-            
+                    
             ring.update(screen,Canvas.width, Canvas.height, Canvas.score)
             origin = pygame.draw.circle(screen, randomColor,(120,530),25,10)
             mousepos1 = pygame.mouse.get_pos()
@@ -59,19 +67,46 @@ class Canvas():
                     if event.key == K_ESCAPE:
                         pygame.quit()
                         sys.exit()
-                    
+                    if event.key == K_w:
+                        Canvas.automatedThrowerSwitch = not Canvas.automatedThrowerSwitch                                
                 elif event.type == MOUSEBUTTONDOWN:
-                    mousepos2[:] = pygame.mouse.get_pos()            
+                    mousepos2[:] = pygame.mouse.get_pos()   
+                    print(mousepos2[:])
+                    print(frames)
                     ball = Ball(screen, mousepos2, power,randomColor)
                     balls.append(ball)
                     randomColor = randomizeColor()
                     
             key_pressed = pygame.key.get_pressed()
 
-            #add power
-            if key_pressed[pygame.K_w] and power<35:
-                power += 1.25
-            
+            if Canvas.automatedThrowerSwitch:
+                if ballCounter == 0:
+                    if framesElapse > 0:
+                        framesElapse -= 1
+                    else:
+                        ballCounter += 1
+                        ball = Ball(screen, ball1, power,randomColor)
+                        randomColor = randomizeColor()
+                        balls.append(ball)
+                        framesElapse = 524-494
+                if ballCounter == 1:
+                    if framesElapse > 0:
+                        framesElapse -= 1
+                    else:
+                        ballCounter += 1
+                        ball = Ball(screen, ball2, power,randomColor)
+                        balls.append(ball)
+                        framesElapse = 558-524
+                if ballCounter == 2:
+                    if framesElapse > 0:
+                        framesElapse -= 1
+                    else:
+                        ballCounter += 1
+                        ball = Ball(screen, ball3, power,randomColor)
+                        balls.append(ball)
+                        framesElapse = 20
+                        ballCounter = 0
+
             if key_pressed[pygame.K_e]:
                 colorReps +=1
 
@@ -83,10 +118,7 @@ class Canvas():
                     colorReps=0
                     randomColor = randomizeColor()
                     
-            if power>5:
-                power -= 1
-
-            if len(balls) > 150:
+            if len(balls) > 50:
                 balls.pop(0)
 
             for i in balls:
